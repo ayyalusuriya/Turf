@@ -1,0 +1,282 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* We must explicitly target html, body, and the React #root div */
+  html, body, #root, .App {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #000000;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* This removes the rogue white line / scrollbar artifact */
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+  
+  /* Glassmorphism Container */
+  .glass-container {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+    width: 100%;
+    max-width: 450px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    /* Added margin to ensure it doesn't touch the screen edges on smaller monitors */
+    margin: 20px; 
+  }
+  
+  /* Form Animations */
+  .form-section {
+    display: flex;
+    flex-direction: column;
+    animation: fadeInSlide 0.5s ease forwards;
+  }
+  
+  @keyframes fadeInSlide {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: #FFFFFF;
+  }
+  
+  /* Inputs & Floating Labels */
+  .row {
+    display: flex;
+    gap: 15px;
+  }
+  .row .input-group { flex: 1; }
+  
+  .input-group {
+    position: relative;
+    margin-bottom: 25px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .input-group.no-icon input {
+    padding-left: 15px;
+  }
+  
+  .input-group input:focus {
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+  
+  .input-group label {
+    position: absolute;
+    left: 45px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    font-size: 16px;
+  }
+  .input-group.no-icon label { left: 15px; }
+  
+  /* Floating Label Animation */
+  .input-group input:focus ~ label,
+  .input-group input:not(:placeholder-shown) ~ label {
+    top: -10px;
+    left: 15px;
+    font-size: 12px;
+    background: #0d0d0d;
+    padding: 0 5px;
+    color: #FFFFFF;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .toggle-password:hover { color: #fff; }
+  
+  /* Radio Buttons */
+  .gender-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    position: relative;
+  }
+  
+  .radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .radio-label input { display: none; }
+  
+  .radio-custom {
+    width: 18px;
+    height: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    margin-right: 8px;
+    position: relative;
+    transition: all 0.2s;
+  }
+  
+  .radio-label input:checked ~ .radio-custom { border-color: #fff; }
+  .radio-label input:checked ~ .radio-custom::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px; height: 10px;
+    background: #fff;
+    border-radius: 50%;
+  }
+  
+  /* Buttons */
+  .btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .primary-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #FFFFFF;
+  }
+  
+  .primary-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    transform: scale(1.03);
+  }
+  
+  .secondary-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .secondary-btn:hover { color: #fff; }
+  
+  /* Validation & Feedback */
+  .error-msg {
+    color: #ff6b6b;
+    font-size: 12px;
+    margin-top: 5px;
+    position: absolute;
+    bottom: -20px;
+    left: 5px;
+  }
+  .gender-error { bottom: -20px; left: 0; }
+  
+  .input-group.error input { border-color: #ff6b6b; }
+  .input-group.success input { border-color: #51cf66; }
+  
+  .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+  
+  @keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+  }
+  
+  /* Password Strength */
+  .password-strength {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    position: absolute;
+    bottom: -25px;
+    left: 5px;
+    width: 100%;
+  }
+  .strength-bar {
+    height: 4px;
+    border-radius: 2px;
+    flex-grow: 1;
+    background: rgba(255,255,255,0.1);
+    transition: all 0.3s;
+  }
+  .strength-text { font-size: 12px; width: 50px; text-align: right;}
+  .weak .strength-bar { background: #ff6b6b; width: 33%; }
+  .weak .strength-text { color: #ff6b6b; }
+  .medium .strength-bar { background: #fcc419; width: 66%; }
+  .medium .strength-text { color: #fcc419; }
+  .strong .strength-bar { background: #51cf66; width: 100%; }
+  .strong .strength-text { color: #51cf66; }
+  
+  /* Loader */
+  .loader {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    animation: rotation 1s linear infinite;
+  }
+  @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  
+  /* Responsive */
+  @media (max-width: 480px) {
+    .glass-container { padding: 30px 20px; border-radius: 0; border-left: none; border-right: none; }
+    .row { flex-direction: column; gap: 0; }
+  }
