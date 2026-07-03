@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import API from "../services/api";
 
 export default function LoginForm({ onSwitch, onAuthSuccess }) {
   const [formData, setFormData] = useState({ contact: '', password: '' });
@@ -9,7 +10,7 @@ export default function LoginForm({ onSwitch, onAuthSuccess }) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phoneRegex = /^\d{10}$/;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
     const contact = formData.contact.trim();
@@ -32,14 +33,40 @@ export default function LoginForm({ onSwitch, onAuthSuccess }) {
 
     setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0) {
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-        onAuthSuccess({
-          label: contact.includes('@') ? contact.split('@')[0] : contact,
+   if (Object.keys(newErrors).length === 0) {
+
+    try {
+
+        setIsLoading(true);
+
+        const response = await API.post("/login", {
+
+            email: formData.contact,
+            password: formData.password
+
         });
-      }, 1200);
+
+        setIsLoading(false);
+
+        localStorage.setItem("token", response.data.token);
+
+        localStorage.setItem(
+            "user",
+            JSON.stringify(response.data.user)
+        );
+
+        onAuthSuccess({
+            label: response.data.user.firstName
+        })
+
+    } catch (error) {
+
+        setIsLoading(false);
+
+        alert(error.response?.data?.message || "Login Failed");
+
+    }
+
     }
   };
 
@@ -104,4 +131,5 @@ export default function LoginForm({ onSwitch, onAuthSuccess }) {
       </button>
     </form>
   );
+
 }

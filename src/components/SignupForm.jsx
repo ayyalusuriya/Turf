@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import API from "../services/api";
 
 export default function SignupForm({ onSwitch, onAuthSuccess }) {
   const [formData, setFormData] = useState({
@@ -29,7 +30,8 @@ export default function SignupForm({ onSwitch, onAuthSuccess }) {
     return 'strong';
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = {};
 
@@ -47,15 +49,43 @@ export default function SignupForm({ onSwitch, onAuthSuccess }) {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-        onAuthSuccess({ label: formData.firstName });
-      }, 1200);
-    }
-  };
 
-  const handleChange = (e) => {
+    try {
+
+        setIsLoading(true);
+
+        const response = await API.post("/signup", {
+
+            firstName: formData.firstName,
+
+            lastName: formData.lastName,
+
+            mobile: formData.phone,
+
+            email: formData.email,
+
+            password: formData.password
+
+        });
+
+        setIsLoading(false);
+
+        alert(response.data.message);
+
+        // Switch back to Login page
+        onSwitch();
+
+    } catch (error) {
+
+        setIsLoading(false);
+
+        alert(error.response?.data?.message || "Signup Failed");
+
+    }
+  }
+
+};
+const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
       setFormData({ ...formData, phone: value.replace(/\D/g, '').slice(0, 10) });
@@ -176,3 +206,4 @@ export default function SignupForm({ onSwitch, onAuthSuccess }) {
     </form>
   );
 }
+

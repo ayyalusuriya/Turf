@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import WelcomeScreen from './components/WelcomeScreen';
 import AuthContainer from './components/AuthContainer';
 import HomePage from './components/HomePage';
@@ -26,6 +26,19 @@ function App() {
   const [authMode, setAuthMode] = useState('login');
   const [userLabel, setUserLabel] = useState('');
   const [selectedFacility, setSelectedFacility] = useState(null);
+  useEffect(() => {
+
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user) {
+
+        setUserLabel(user.firstName);
+
+        setStage("home");
+
+    }
+
+}, []);
 
   const handleSelectMode = (mode) => {
     setAuthMode(mode);
@@ -46,11 +59,19 @@ function App() {
     setStage('profile');
   };
 
-  const handleBackToStart = () => {
-    setStage('welcome');
-    setUserLabel('');
+ const handleBackToStart = () => {
+
+    localStorage.removeItem("token");
+
+    localStorage.removeItem("user");
+
+    setStage("welcome");
+
+    setUserLabel("");
+
     setSelectedFacility(null);
-  };
+
+};
 
   const handleBackHome = () => {
     setStage('home');
